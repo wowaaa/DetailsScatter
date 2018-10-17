@@ -69,29 +69,31 @@ public class BaseSphereEditorInspector : Editor {
 
     protected virtual void OnSceneGUI() {
         Event e = Event.current;
-        if (!inEditMode || e.button != 0|| !e.isMouse) return;
+        if (!inEditMode || e.button != 0) return;
         if (surface == null) surface = (BaseSpherePointsEditor)target;
 
-        if (e.type == EventType.MouseDown) {
-            if (inEditMode) {
-                blockingMouseInput = true;
-                ClickOnSurface(e);
+        if(e.isMouse){
+            if (e.type == EventType.MouseDown) {
+                if (inEditMode) {
+                    blockingMouseInput = true;
+                    ClickOnSurface(e);
+                }
             }
-        }
-        else if (e.type == EventType.MouseDrag) {
-            //TODO: drag spheres
-        }
-        else if (e.type == EventType.MouseMove) {
-            if (editSingleSphere) {
-                surface.ChangeRadius((e.mousePosition - lastMousePos) * relativeSizeChange);
+            else if (e.type == EventType.MouseDrag) {
+                //TODO: drag spheres
             }
-            lastMousePos = e.mousePosition;
-        }
-        else if (e.type == EventType.MouseUp) {
-            if (blockingMouseInput) {
-                e.Use();
+            else if (e.type == EventType.MouseMove) {
+                if (editSingleSphere) {
+                    surface.ChangeRadius((e.mousePosition - lastMousePos) * relativeSizeChange);
+                }
+                lastMousePos = e.mousePosition;
             }
-            blockingMouseInput = false;
+            else if (e.type == EventType.MouseUp) {
+                if (blockingMouseInput) {
+                    e.Use();
+                }
+                blockingMouseInput = false;
+            }
         }
         else if (e.type == EventType.Layout && inEditMode) {
             HandleUtility.AddDefaultControl(GUIUtility.GetControlID(GetHashCode(), FocusType.Passive));
