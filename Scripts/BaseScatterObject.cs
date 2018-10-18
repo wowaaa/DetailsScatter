@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Assets.Scripts {
-    public class BaseScatterObject : BaseSpherePointsEditor {
+    public abstract class BaseScatterObject : BaseSpherePointsEditor {
         public int seed;
         public int clumpsSize = 0;
         public float clumpsRadius = 0.125f;

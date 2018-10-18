@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts {
-    public class BaseSpherePointsEditor : MonoBehaviour {
+    public abstract class BaseSpherePointsEditor : MonoBehaviour {
         public LayerMask ground;
 
         bool editMode;
@@ -128,8 +128,6 @@ namespace Assets.Scripts {
             }
         }
 
-        public virtual void RefreshPoints() {
-            //Override to have intended functionality
-        }
+        public abstract void RefreshPoints();
     }
 }
