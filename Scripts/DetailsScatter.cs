@@ -50,13 +50,16 @@ namespace Assets.Scripts {
                         //Instantiate detail at position according to normal
                         var detail = detailVariants[mainSeed.Range(0, detailVariants.Length)];
                         if (!AffectedByAnySphere(hit.point)) {
-                            var t = Instantiate(detail, origin + newOrigin + offset,
-                                detail.transform.rotation * Quaternion.FromToRotation(FastMath.Up, hit.normal)
+                            var t = (PrefabUtility.GetPrefabType(detail) == PrefabType.Prefab ?
+                                (GameObject)PrefabUtility.InstantiatePrefab(detail) :
+                                Instantiate(detail)).transform;
+                            t.position = origin + newOrigin + offset;
+                            t.rotation = detail.transform.rotation * Quaternion.FromToRotation(FastMath.Up, hit.normal)
                                 * Quaternion.Euler(
                                     rotationVariants.x * rotationX * 180,
                                     rotationVariants.y * rotationY * 180,
-                                    rotationVariants.z * rotationZ * 180),
-                                transform).GetComponent<Transform>();
+                                    rotationVariants.z * rotationZ * 180);
+                            t.parent = transform;
                             t.localScale *= height;
                         }
                     };
